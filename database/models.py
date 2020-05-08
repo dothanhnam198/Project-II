@@ -132,7 +132,7 @@ class Schedule(models.Model):
         if self.name is None:
             return ""
         else:
-            return self.name
+            return '{} học kỳ {}'.format(self.name, self.semester)
 
     class Meta:
         verbose_name = verbose_name_plural = _('Danh sách thời khóa biểu')
@@ -157,7 +157,7 @@ class Lesson(models.Model):
         if self.created_at is None:
             return ""
         else:
-            return self.created_at
+            return '{}:{}'.format(self.teacher_id, self.class_id)
 
     class Meta:
         verbose_name = verbose_name_plural = _('Danh sách buổi học')

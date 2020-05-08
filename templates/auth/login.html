@@ -1,0 +1,153 @@
+{% extends "admin/base.html" %}
+{% load i18n static others %}
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block extrastyle %}
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
+    <!--Jquery confirm-->
+    <link rel="stylesheet" href="/static/plugins/jquery-confirm/jquery-confirm.min.css">
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/static/styles/site.css">
+{% endblock %}
+
+{% block content %}
+    {% if form.errors and not form.non_field_errors %}
+        <p class="errornote">
+            {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
+                {% trans "Please correct the errors below." %}{% endif %}
+        </p>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <p class="errornote">
+                {{ error }}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    <div id="content-main">
+        <div class="text-center">
+            <img src="/static/images/logoqltt.png" alt="" class="logo">
+        </div>
+        <h4 class="text-center text-info title">
+            Hệ thống Nhận dạng văn bản
+        </h4>
+        {% if user.is_authenticated %}
+            <p class="errornote">
+                {% blocktrans trimmed %}
+                    You are authenticated as {{ username }}, but are not authorized to
+                    access this page. Would you like to login to a different account?
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+
+        <form action="/login/?next={{ request.GET|get_dict_value:'next' }}" method="post"
+              id="login-form">{% csrf_token %}
+            <p class="text-danger" id="error-message"></p>
+            <div class="form-row">
+                <label class="required" for="id_username">Tên đăng nhập:</label>
+                <input type="text" name="username" autofocus="" required="" id="id_username" class="form-control"
+                       value="demo">
+            </div>
+            <div class="form-row">
+                <label class="required" for="id_password">Mật khẩu:</label> <input type="password" name="password"
+                                                                                   required="" id="id_password"
+                                                                                   class="form-control"
+                                                                                   value="demo1234">
+                <input type="hidden" name="next" value="/admin/" class="form-control">
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+            {% url 'admin_password_reset' as password_reset_url %}
+            {% if password_reset_url %}
+                <div class="password-reset-link">
+                    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+                </div>
+            {% endif %}
+            <div class="submit-row">
+                <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}">
+            </div>
+            <div>
+                <label>{% trans 'Account test: Demo / demo1234' %}</label>
+            </div>
+            <div class="submit-row">
+                {#                <input type="submit" value="{% trans 'Forgotten password' %}" style="width:49%;position:relative;float:left;">#}
+                {#                <input type="submit" value="{% trans 'Register' %}" style="width:49%;position:relative;float:right;">#}
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="#"
+                           class="btn btn-primary btn-flat btn-block btn-sm">{% trans 'Khôi phục mật khẩu' %}</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/register" class="btn btn-primary btn-flat btn-block btn-sm">{% trans 'Đăng ký' %}</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+<a style="color:red;padding:12px;" href="/static/eps_ocr.apk">Install APK - Android App</a>
+<br>
+<a style="color:red;padding:12px;" href="/static/ocr.html">Install iOS App</a>
+
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <!-- jQuery 3 -->
+    <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+    <!--Jquery confirm-->
+    <script src="/static/plugins/jquery-confirm/jquery-confirm.min.js"></script>
+    <script>
+        $(function () {
+            $('.login').find('input[type!=submit]').addClass('form-control');
+            $('.login').find('input[type=submit]').addClass('btn btn-primary btn-flat btn-block btn-sm');
+
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{csrf_token}}');
+                    }
+                }
+            });
+
+            $('input[type=submit]').on('click', function () {
+                debugger
+                let $self = $(this);
+                $.ajax({
+                    url: '/api/api-token-auth/',
+                    dataType: 'json',
+                    method: 'post',
+                    data: {username: $('input[name=username]').val(), password: $('input[name=password]').val()},
+                    success: function (response) {
+                        debugger
+                        if (response && response.token) {
+                            localStorage.setItem('token', response.token);
+                        }
+                        $self.closest('form').submit();
+                    },
+                    error: function () {
+                        $("#error-message").text('Sai tài khoản hoặc mật khẩu')
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
