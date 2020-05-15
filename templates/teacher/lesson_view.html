@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+{% load i18n static others %}
+
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admin:index' %}"><i class="fa fa-home"></i> {% trans 'Home' %}</a></li>
+        <li class="active">Danh sách buổi dạy</li>
+    </ol>
+{% endblock %}
+
+{% block extrastyle %}
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/static/styles/site.css">
+{% endblock %}
+
+{% block content %}
+ {% for obj in lessons %}
+    <h1>{{ obj.subject_id }}</h1>
+    <h1>{{ obj.class_id }}</h1>
+    <h1>{{ obj.time }}</h1>
+    <h1>{{ obj.parts_of_the_day }}</h1>
+    <h1>{{ obj.period }}</h1>
+
+ {% endfor %}
+{% endblock content %}

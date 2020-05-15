@@ -1,6 +1,8 @@
 from django.db import models
 from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
+from users.models import CustomUser
+from django.conf import settings
 
 # Create your models here.
 GRADE_CHOICES = Choices(
@@ -29,10 +31,22 @@ DAYS_OF_WEEK_CHOICES = Choices(
     ('4', 'Thứ 6'),
     ('5', 'Thứ 7'),
 )
+PARTS_OF_THE_DAY_CHOICES = Choices(
+    ('0', 'Buổi sáng'),
+    ('1', 'Buổi chiều'),
+)
+PERIOD_CHOICES = Choices(
+    ('0', 'Tiết 1'),
+    ('1', 'Tiết 2'),
+    ('2', 'Tiết 3'),
+    ('3', 'Tiết 4'),
+    ('4', 'Tiết 5'),
+)
 
 
 class Teacher(models.Model):
     full_name = models.CharField(max_length=100, blank=True, null=True, verbose_name =_("Họ và tên"))
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Vai trò"))
 
     def __str__(self):
         if self.full_name is None:
@@ -82,6 +96,7 @@ class Student(models.Model):
     full_name = models.CharField(max_length=100, blank=True, null=True, verbose_name =_("Họ và tên"))
     class_id = models.ForeignKey('Class', on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Lớp"))
     date_of_birth = models.DateField(blank=True, null=True)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Vai trò"))
 
     def __str__(self):
         if self.full_name is None:
@@ -107,10 +122,10 @@ class Score(models.Model):
     last_modify_date = models.DateTimeField(auto_now=True, null=True, verbose_name=_('Ngày sửa'))
 
     def __str__(self):
-        if self.result is None:
+        if self.type is None:
             return ""
         else:
-            return self.result
+            return self.type
 
     class Meta:
         verbose_name = verbose_name_plural = _('Danh sách Điểm')
@@ -148,6 +163,16 @@ class Lesson(models.Model):
     time = models.CharField(
         max_length=20,
         choices=DAYS_OF_WEEK_CHOICES,
+        default='-----'
+    )
+    parts_of_the_day = models.CharField(
+        max_length=20,
+        choices=PARTS_OF_THE_DAY_CHOICES,
+        default='-----'
+    )
+    period = models.CharField(
+        max_length=20,
+        choices=PERIOD_CHOICES,
         default='-----'
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Ngày tạo'))

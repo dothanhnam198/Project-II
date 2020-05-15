@@ -125,57 +125,73 @@
 {#             </ul>#}
 {#        </li>#}
 
-           <li class="{% if request.path == '/ocr/' %}menu-open{% endif %}">
-                <a href="/ocr/">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+           <li class="{% if request.path == '/admin/database/teacher' %}menu-open{% endif %}">
+                <a href="/admin/database/teacher">
+                <i class="fa fa-book"></i> <span>Giáo viên</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
             </li>
-      <li class="{% if request.path == '/' %}menu-open{% endif %}">
-                <a href="/">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+      <li class="{% if request.path == '/admin/database/student' %}menu-open{% endif %}">
+                <a href="/admin/database/student">
+                <i class="fa fa-book"></i> <span>Học sinh</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
             </li>
-       <li class="{% if request.path == '/ocr/config/advance/' %}menu-open{% endif %}">
-                <a href="/ocr/config/advance/">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+       <li class="{% if request.path == '/admin/database/class' %}menu-open{% endif %}">
+                <a href="/admin/database/class">
+                <i class="fa fa-book"></i> <span>Lớp học</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
             </li>
-      <li class="{% if request.path == '/ocr/template/' %}menu-open{% endif %}">
-                <a href="/ocr/template/">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+      <li class="{% if request.path == '/admin/database/subject' %}menu-open{% endif %}">
+                <a href="/admin/database/subject">
+                <i class="fa fa-book"></i> <span>Môn học</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
             </li>
 
-	<li class="{% if request.path == '/ocrquantity/create' %}menu-open{% endif %}">
-                <a href="/ocrquantity">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+	<li class="{% if request.path == '/admin/database/score' %}menu-open{% endif %}">
+                <a href="/admin/database/score">
+                <i class="fa fa-book"></i> <span>Quản lý điểm</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
             </li>
-          <li class="{% if request.path == '/ocrquantity' %}menu-open{% endif %}">
-                {% if request.user.is_superuser %}
-                <a href="/ocrquantity/list">
-                <i class="fa fa-book"></i> <span>Chức năng 1</span>
+    <li class="{% if request.path == '/admin/database/schedule' %}menu-open{% endif %}">
+                <a href="/admin/database/schedule">
+                <i class="fa fa-book"></i> <span>Thời khóa biểu</span>
 {#                <span class="pull-right-container">#}
 {#                  <i class="fa fa-angle-left pull-right"></i>#}
 {#                </span>#}
               </a>
-                    {% endif %}
             </li>
+    <li class="{% if request.path == '/admin/database/lesson' %}menu-open{% endif %}">
+                <a href="/admin/database/lesson">
+                <i class="fa fa-book"></i> <span>Buổi học</span>
+{#                <span class="pull-right-container">#}
+{#                  <i class="fa fa-angle-left pull-right"></i>#}
+{#                </span>#}
+              </a>
+            </li>
+<!--          <li class="{% if request.path == '/ocrquantity' %}menu-open{% endif %}">-->
+<!--                {% if request.user.is_superuser %}-->
+<!--                <a href="/ocrquantity/list">-->
+<!--                <i class="fa fa-book"></i> <span>Chức năng 1</span>-->
+<!--{#                <span class="pull-right-container">#}-->
+<!--{#                  <i class="fa fa-angle-left pull-right"></i>#}-->
+<!--{#                </span>#}-->
+<!--              </a>-->
+<!--                    {% endif %}-->
+<!--            </li>-->
 
 
 
